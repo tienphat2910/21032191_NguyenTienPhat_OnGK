@@ -9,7 +9,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Screen02'
+        initialRouteName='Screen01'
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Screen01" component={Screen01}></Stack.Screen>

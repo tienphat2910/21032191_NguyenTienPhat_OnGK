@@ -3,7 +3,7 @@ import { ActivityIndicator, Image, Text, TouchableOpacity, View, FlatList, Scrol
 
 const Screen02 = ({ navigation, route }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [listProduct, setListProduct] = useState([]);
+    const [productList, setProductList] = useState([]);
     const [categories] = useState([
         {
             id: 1,
@@ -25,23 +25,23 @@ const Screen02 = ({ navigation, route }) => {
         },
     ]);
 
-    const [categorieselected, setCategoriesSelected] = useState(categories[0]);
-    const [type, setType] = useState("Smart Phone");
-    const [seeAll, setSeeAll] = useState(false);
-    const [choiBesst, setchoiBesst] = useState('Best Sales');
+    const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+    const [categoryType, setCategoryType] = useState("Smart Phone");
+    const [showAll, setShowAll] = useState(false);
+    const [selectedLabel, setSelectedLabel] = useState('Best Sales');
 
     useEffect(() => {
-        getProduct();
+        fetchProducts();
     }, []);
 
-    const getProduct = async () => {
+    const fetchProducts = async () => {
         const api = `https://6713be4d690bf212c75f99fe.mockapi.io/gkapi/products`;
 
         try {
             setIsLoading(true);
             const response = await fetch(api);
             const json = await response.json();
-            setListProduct(json);
+            setProductList(json);
             console.log(json);
         } catch (error) {
             console.log(error);
@@ -91,16 +91,16 @@ const Screen02 = ({ navigation, route }) => {
                             <TouchableOpacity
                                 key={category.id}
                                 style={{
-                                    borderWidth: type === category.type ? 2 : 0,
+                                    borderWidth: categoryType === category.type ? 2 : 0,
                                     paddingHorizontal: 11,
                                     paddingVertical: 5,
-                                    borderColor: type === category.type ? '#fd70fd' : 'rgba(255,255,255,0)',
+                                    borderColor: categoryType === category.type ? '#fd70fd' : 'rgba(255,255,255,0)',
                                     backgroundColor: category.backgroundColor,
                                 }}
                                 onPress={() => {
-                                    setType(category.type);
-                                    setchoiBesst("Best Sales");
-                                    setSeeAll(false);
+                                    setCategoryType(category.type);
+                                    setSelectedLabel("Best Sales");
+                                    setShowAll(false);
                                 }}>
                                 <Image source={category.image} style={styles.categoryImage} />
                             </TouchableOpacity>
@@ -112,30 +112,29 @@ const Screen02 = ({ navigation, route }) => {
                             <TouchableOpacity
                                 key={label}
                                 style={{
-                                    backgroundColor: choiBesst === label ? '#80d3e3' : '#f8f9f9',
+                                    backgroundColor: selectedLabel === label ? '#80d3e3' : '#f8f9f9',
                                     padding: 15,
                                     borderRadius: 10,
                                 }}
                                 onPress={() => {
-                                    setchoiBesst(label);
-                                    setSeeAll(false);
+                                    setSelectedLabel(label);
+                                    setShowAll(false);
                                 }}>
                                 <Text style={{
-                                    color: choiBesst === label ? '#032c62' : '#b5b6bb',
-                                    fontWeight: choiBesst === label ? 'bold' : 'normal',
+                                    color: selectedLabel === label ? '#032c62' : '#b5b6bb',
+                                    fontWeight: selectedLabel === label ? 'bold' : 'normal',
                                 }}>{label}</Text>
                             </TouchableOpacity>
                         ))}
-
                     </View>
 
                     {isLoading ? (
                         <ActivityIndicator />
                     ) : (
                         <FlatList
-                            data={seeAll
-                                ? listProduct.filter((item) => item.category === type)
-                                : listProduct.filter((item) => item.category === type && item.labels.includes(choiBesst)).slice(0, 3)}
+                            data={showAll
+                                ? productList.filter((item) => item.category === categoryType)
+                                : productList.filter((item) => item.category === categoryType && item.labels.includes(selectedLabel)).slice(0, 3)}
                             renderItem={({ item }) => (
                                 <TouchableOpacity style={styles.productContainer}>
                                     <View style={styles.productInfo}>
@@ -159,8 +158,8 @@ const Screen02 = ({ navigation, route }) => {
             <View>
                 <TouchableOpacity
                     style={styles.seeAllButton}
-                    onPress={() => setSeeAll(!seeAll)}>
-                    <Text style={styles.seeAllText}>{seeAll ? 'Hide' : 'See All'}</Text>
+                    onPress={() => setShowAll(!showAll)}>
+                    <Text style={styles.seeAllText}>{showAll ? 'Hide' : 'See All'}</Text>
                 </TouchableOpacity>
             </View>
 

@@ -10,8 +10,8 @@ const Screen01 = ({ navigation }) => {
         { email: 'user5@example.com', password: '123456' },
     ];
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('user1@example.com');
+    const [password, setPassword] = useState('123456');
     const [errorMessage, setErrorMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
