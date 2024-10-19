@@ -15,14 +15,11 @@ const Screen01 = ({ navigation }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    // Hàm kiểm tra thông tin đăng nhập
     const handleLogin = () => {
         const user = users.find(user => user.email === email && user.password === password);
         if (user) {
-            // Điều hướng đến Screen02 nếu thông tin đúng
             navigation.navigate('Screen02');
         } else {
-            // Hiển thị thông báo lỗi nếu thông tin không đúng
             setErrorMessage('Thông tin đăng nhập không chính xác');
         }
     };
@@ -65,7 +62,7 @@ const Screen01 = ({ navigation }) => {
                         }}
                         placeholder='Enter your password'
                         placeholderTextColor="#9b9b9b"
-                        secureTextEntry={!showPassword} // Sử dụng trạng thái hiển thị mật khẩu
+                        secureTextEntry={!showPassword}
                         value={password}
                         onChangeText={setPassword}
                     />
