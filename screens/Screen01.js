@@ -1,19 +1,19 @@
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Screen01 = ({ navigation }) => {
-    const users = [
-        { email: 'user1@example.com', password: '123456' },
-        { email: 'user2@example.com', password: '123456' },
-        { email: 'user3@example.com', password: '123456' },
-        { email: 'user4@example.com', password: '123456' },
-        { email: 'user5@example.com', password: '123456' },
-    ];
-
+    const [users, setUsers] = useState([]);
     const [email, setEmail] = useState('user1@example.com');
     const [password, setPassword] = useState('123456');
     const [errorMessage, setErrorMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
+    useEffect(() => {
+        fetch('https://6713be4d690bf212c75f99fe.mockapi.io/gkapi/users')
+            .then(response => response.json())
+            .then(data => setUsers(data))
+            .catch(error => console.error('Error fetching users:', error));
+    }, []);
 
     const handleLogin = () => {
         const user = users.find(user => user.email === email && user.password === password);

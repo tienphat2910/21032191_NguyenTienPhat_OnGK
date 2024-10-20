@@ -58,7 +58,7 @@ const Screen03 = ({ route, navigation }) => {
 
             <Modal
                 animationType="slide"
-                transparent={true}
+                transparent={true} é
                 visible={modalVisible}
                 onRequestClose={() => {
                     setModalVisible(!modalVisible);
